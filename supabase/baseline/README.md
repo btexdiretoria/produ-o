@@ -1,7 +1,7 @@
 # Esquema restrito do novo Supabase de Produção
 
-Em 24/09/2026, `production_schema.sql` foi aplicado ao projeto Supabase
-`yderyiawhqgkhflsfjzi` como uma única migração de nome
+Em 24/09/2026, `production_schema.sql` foi aplicado ao novo projeto Supabase
+de Produção como uma única migração de nome
 `btex_production_restricted_baseline`. Em seguida, `production_storage.sql`
 criou o bucket privado `product-files`.
 
@@ -15,14 +15,12 @@ pois o projeto novo não continha esses registros.
 O projeto foi criado vazio: há apenas os dados de configuração (cinco setores,
 sete dias de horário e a configuração geral). **Nenhum dado do banco antigo
 foi migrado.** O código e a prévia do sistema B ainda usam o projeto
-`vhxeootmoeocnmrolayy`; não troque suas variáveis de ambiente até revisar a
+anterior; não troque suas variáveis de ambiente até revisar a
 migração dos dados e testar todas as operações.
 
-A tabela `marcadores` começa vazia na linha de base. Em 24/09/2026, foi
-criada **uma** conta no banco novo: `Teste Admin`, com cargo `admin` e senha
-armazenada apenas como hash. A senha não consta no repositório. Esse acesso
-só funcionará no aplicativo após uma prévia ser configurada para o projeto
-novo. O fluxo do aplicativo exige que a primeira conta seja administradora.
+A tabela `marcadores` começa vazia na linha de base. O fluxo do aplicativo
+exige que a primeira conta seja administradora. Gerencie credenciais apenas
+no banco e no aplicativo; não registre dados de acesso no repositório.
 
 O Supabase registra a estrutura nova como **uma** migração. As 32 migrações
 históricas não devem ser reaplicadas nesse projeto. Antes de usar `supabase db
