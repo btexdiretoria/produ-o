@@ -132,23 +132,41 @@ MarcaçãoProdução: id, colaborador_id, produto_id, operação_id, janela_hor�
 
 Fim do prompt. Cole este texto inteiro na caixa de prompt do Lovable para iniciar o projeto.
 
-This project was built with [Lovable](https://lovable.dev).
+## Desenvolvimento e hospedagem independentes
 
-## Build with Lovable
+O código usa TanStack Start e precisa de um servidor para renderização e funções de servidor.
+O GitHub mantém o código; a aplicação pode rodar em um servidor Node.js ou em uma
+plataforma compatível com TanStack Start, como a Vercel. O banco de dados atual do
+sistema B continua no projeto Supabase associado ao Lovable Cloud; mudar a hospedagem
+da aplicação **não** migra os dados. A migração para o Supabase da empresa é uma etapa separada.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/56474720-4044-480a-922b-55cd8d9f85e3).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Para desenvolvimento, instale o [Bun](https://bun.sh/) e execute:
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install --frozen-lockfile
+cp .env.example .env.local
+# Preencha .env.local com as credenciais do projeto Supabase atual.
+bun run dev
 ```
+
+Para gerar o servidor Node.js em `.output/server/index.mjs`:
+
+```sh
+bun run build
+bun run start
+```
+
+Na Vercel, importe este repositório como projeto TanStack Start. O `vercel.json`
+define o framework; o build usa `bun run build`. Configure as variáveis em
+**Settings → Environment Variables** antes de publicar:
+
+| Variável | Uso |
+| --- | --- |
+| `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | Projeto e chave pública incluídos no navegador durante o build |
+| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` | Projeto e chave pública para funções de servidor |
+| `SUPABASE_SERVICE_ROLE_KEY` | Chave privada apenas no servidor; necessária para funções administrativas |
+
+Use os valores do projeto que atende o sistema B. Nunca configure a chave `SERVICE_ROLE`
+com prefixo `VITE_` e nunca a inclua em commits. Antes de liberar o sistema em outro
+domínio, adicione a URL publicada às URLs de redirecionamento permitidas na autenticação
+do Supabase. A branch `codex/independent-hosting` é validada pelo workflow de build.
