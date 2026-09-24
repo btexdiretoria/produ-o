@@ -18,11 +18,11 @@ foi migrado.** O código e a prévia do sistema B ainda usam o projeto
 `vhxeootmoeocnmrolayy`; não troque suas variáveis de ambiente até revisar a
 migração dos dados e testar todas as operações.
 
-A tabela `marcadores` começa vazia. O fluxo do aplicativo cria a primeira
-conta obrigatoriamente como administrador. Cadastre esse administrador por
-meio do aplicativo após apontar uma prévia para o novo projeto; depois crie
-`Teste Produção` com cargo `usuario`. Inserir um usuário comum como única
-conta deixaria o projeto sem administrador.
+A tabela `marcadores` começa vazia na linha de base. Em 24/09/2026, foi
+criada **uma** conta no banco novo: `Teste Admin`, com cargo `admin` e senha
+armazenada apenas como hash. A senha não consta no repositório. Esse acesso
+só funcionará no aplicativo após uma prévia ser configurada para o projeto
+novo. O fluxo do aplicativo exige que a primeira conta seja administradora.
 
 O Supabase registra a estrutura nova como **uma** migração. As 32 migrações
 históricas não devem ser reaplicadas nesse projeto. Antes de usar `supabase db
