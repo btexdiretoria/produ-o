@@ -15,3 +15,17 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Build production application
         run: bun run build
+      - name: Smoke test production server
+        run: |
+          PORT=3000 bun run start >/tmp/production-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            status=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/ || true)
+            if [[ "$status" =~ ^(200|301|302|307|308)$ ]]; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Production server did not respond successfully (last HTTP status: $status)"
+          exit 1
