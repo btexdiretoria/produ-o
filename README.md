@@ -160,6 +160,11 @@ Na Vercel, importe este repositório como projeto TanStack Start. O `vercel.json
 define o framework; o build usa `bun run build`. Configure as variáveis em
 **Settings → Environment Variables** antes de publicar:
 
+Para testar sem afetar a URL principal, publique primeiro a branch
+`codex/independent-hosting` como **Preview** e consulte a URL gerada em
+**Deployments** na Vercel. A URL padrão do projeto recebe uma publicação de
+**Production** quando a branch de produção (`main`) for publicada.
+
 | Variável | Uso |
 | --- | --- |
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | Projeto e chave pública incluídos no navegador durante o build |
